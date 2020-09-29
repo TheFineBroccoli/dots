@@ -26,6 +26,8 @@ None of the sripts have a "help" or "usage" function, but are well commented.
 * Pdf reader - zathura
 * Wallpaper setter - [hsetroot][7]
 
+I will make repositories for my build of dmenu and slock in the near future
+
 [1]: https://github.com/dylanaraps/sowm
 [2]: https://github.com/wmutils/core
 [3]: https://tools.suckless.org/dmenu/
