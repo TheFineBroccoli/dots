@@ -1,0 +1,58 @@
+#!/bin/sh
+
+alias sx="startx"
+
+# Navigation
+alias ..="cd .."
+alias l="ls -F --color=always --group-directories-first"
+alias ll="ls -AF --color=always --group-directories-first"
+alias lll="stat -c '%A %a %n' *"
+alias lll="du -sh *"
+
+# Config files
+alias vrc="nvim ~/.config/nvim/init.vim"
+alias brc="nvim ~/.bashrc"
+
+# Folders
+alias con="cd ~/.config"
+alias dow="cd ~/Downloads && l"
+alias dev="cd ~/Dev && l"
+alias pic="cd ~/Pictures && l"
+alias doc="cd ~/Documents && l"
+alias pro="cd ~/.programs && l"
+alias tem="cd ~/Templates && l"
+alias vid="cd ~/Videos && l"
+alias mus="cd ~/Music && l"
+alias etc="cd ~/etc && l"
+alias chrome="cd ~/.mozilla/firefox/s1dadvtc.default-release/chrome && l"
+
+# Programs
+alias py="python"
+alias vi="nvim"
+alias yt="youtube-dl"
+alias ff="firefox"
+alias pac="doas pacman"
+alias sxiv="sxiv -b"
+
+# Dots
+alias dots="git --git-dir=$HOME/etc/dots --work-tree=$HOME"
+
+# Utils
+alias cp="cp -i"
+alias mv="mv -i"
+alias rf="rm -rf"
+alias grep="grep --color=always"
+
+# Scripts
+alias hb="hastebin"
+alias wp="waifupaste"
+
+# Curl
+alias mkgit="curl -u 'TheFineBroccoli' https://api.github.com/user/repos -d"
+alias wttr="curl wttr.in"
+
+# Lsiten to plaza.one
+alias plaza="exec mpv --no-video -- https://radio.plaza.one/ogg"
+
+# Make file with random data
+alias rand="head -c 50K < /dev/urandom > $1"
