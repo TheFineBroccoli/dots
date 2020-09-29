@@ -1,0 +1,18 @@
+#!/bin/sh
+
+# Alsa
+# alsaStats=$(amixer -M get Master)
+# vol=$(echo "$alsaStats" | grep -o "\[[0-9]\+%\]" |sed "s/[^0-9]*//g;1q")
+# if echo "$alsaStats" | grep -q "\[off\]"
+# then 
+#     herbe "Volume is Muted"
+# else 
+#     herbe "Volume $vol%"
+# fi
+
+# Pulse audio
+[ "$(pamixer --get-mute)" = "true" ] && \
+    vstatus="is Muted" || \
+    vstatus="$(pamixer --get-volume)%"
+
+herbe "Volume $vstatus"

@@ -1,0 +1,19 @@
+#!/bin/sh
+
+batt(){
+    read -r capac < "/sys/class/power_supply/BAT0/capacity"
+    read -r bstatus < "/sys/class/power_supply/BAT0/status"
+    
+    [ "$bstatus" = "Discharging" ] && [ "$capac" -lt "25" ] && warn="!"
+    
+    bstatus="$(echo "$bstatus" | \
+        sed 's/Charging/↑/;s/Discharging/↓/;s/Full//;s/Unknown//')"
+
+    echo "Batt $warn$bstatus$capac%"
+}
+
+herbe "$(date +"%R")" \
+      " " \
+      "$(date +"%a, %b %d")" \
+      " " \
+      "$(batt)"
