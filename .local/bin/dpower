@@ -1,0 +1,13 @@
+#!/bin/sh
+
+selection="Restart
+Shutdown"
+
+choice=$(echo "$selection" | dmenu -p "Sys:")
+# choice=$(echo "$selection" | dmenu -c -bw 2 -l 10 -p "Sys:")
+
+case "$choice" in
+    "") exit ;;
+    "Restart") dprompt "Restart the pc?" "systemctl reboot" ;;
+    "Shutdown") dprompt "Shutdown?" "systemctl -i poweroff" ;;
+esac

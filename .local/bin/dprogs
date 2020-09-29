@@ -1,0 +1,23 @@
+#!/bin/sh
+
+selection="Firefox
+Steam
+Glimpse
+Inkscape
+Minecraft
+Firefox (P)
+Chromium"
+
+choice=$(echo "$selection" | dmenu -p "Run:")
+# choice=$(echo "$selection" | dmenu -c -bw 2 -l 10 -p "Run:")
+
+case "$choice" in
+    "") exit ;;
+    "Firefox") firefox ;;
+    "Steam") steam -noverifyfiles ;;
+    "Glimpse") glimpse ;;
+    "Inkscape") inkscape ;;
+    "Minecraft") minecraft-launcher ;;
+    "Firefox (P)") firefox --private-window ;;
+    "Chromium") chromium ;;
+esac

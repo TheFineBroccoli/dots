@@ -1,0 +1,25 @@
+#!/bin/sh
+
+editor="nvim"
+
+# Get list of notes from "~/Notes/" if the "~/Notes" directory isn't empty 
+# (Also remove the full path and file extension (".md"))
+[ "$(ls -A ~/Notes/)" ] && notes=$(find ~/Notes/*md | sed 's!/.*/!!;s!.md!!')
+
+# Echo the list of notes to dmenu
+choice=$(echo "$notes" | dmenu -p "Notes:")
+# choice=$(echo "$notes" | dmenu -c -bw 2 -l 10 -p "Notes:")
+
+case "$choice" in
+    # If the propmpt is empty exit
+    "") exit ;;
+    # If there is "d" before the note delete it
+    d\ *) choice=$(echo "$choice" | sed 's/d //') && rm ~/Notes/"$choice".md ;;
+    # If there is "r" before the note rename it and open it in "$editor"
+    r\ *) choice=$(echo "$choice" | sed 's/r //') && \
+        newName=$(dmenu -p "New name:" <&- && echo) && \
+        mv ~/Notes/"$choice".md ~/Notes/"$newName".md && \
+        urxvt -e $editor ~/Notes/"$newName".md ;;
+    # If there is nothing before the note open it (or create it) in "$editor"
+    *) urxvt -e $editor ~/Notes/"$choice".md ;;
+esac

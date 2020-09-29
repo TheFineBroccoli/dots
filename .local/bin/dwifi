@@ -1,0 +1,60 @@
+#!/bin/sh
+
+# A dmemu wrapper script for NetworkManager
+
+# Network with "*" is currently connected,
+# selecting it will bring up disconnect dialog (dprompt).
+# Any new network will ask for password (leave blank if it's not needed).
+# Any existing connection will connect automaticaly (after selecting it).
+
+# This script isn't perfect it could break for e.x.:
+# if you change your wifi password and the ssid stays the same.
+
+# If you are having trouble with this script:
+# Run "nmcli c" and delete any duplicate entries,
+# (e.x. "wifi_name", "wifi_name 1", ...)
+# with "nmcli con delete 'wifi_name 1'"
+
+# Send notif using herbe
+herbe 'Searching for networks...'
+
+# Get existing connections
+nmcli -t -c no -f NAME c > ~/.cache/econs
+
+# Get possible connections (and active connections if they exist)
+ssids=$(nmcli -t -c no -f IN-USE,SSID device wifi list | sed 's/://') 
+
+# Output ssids to dmenu for selecting
+ssid=$(echo "$ssids" | dmenu -p "Networks:")
+# ssid=$(echo "$ssids" | dmenu -c -bw 2 -l 10 -p "Networks:")
+
+case "$ssid" in
+    # Exit if the user didn't select anything
+    "") exit ;;
+    *)
+        # Check if the selected network is currently used
+        # And if it is prompt to disconnect (dprompt)
+        if echo "$ssid" | grep '*'
+        then
+            ssid=$(echo "$ssid" | sed 's/\*//') && \
+                dprompt "Dissconnect from '${ssid}'?" \
+                "nmcli con down id ${ssid}" && \
+                herbe "Disconnected from ${ssid}"
+        else
+            # Check if the conection is in the existing connections
+            # If it isn't ask for password and connect to it
+            # If it is connect to it
+            if ! grep -xq $ssid ~/.cache/econs
+            then
+            # Do NOT qoute any variables in the below "nmcli" commands,
+            # it will break the script
+                pass=$(dmenu -p "Pass:" <&- && echo) && \
+                    nmcli device wifi connect $ssid password $pass && \
+                    herbe "Connected to ${ssid}"
+            else
+                nmcli device wifi connect $ssid && \
+                    herbe "Connected to ${ssid}"
+            fi
+        fi
+    ;;
+esac

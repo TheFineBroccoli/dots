@@ -1,0 +1,7 @@
+#!/bin/sh
+
+# A Yes/No prompt script for dmenu. (By Luke Smith)
+# Gives dmenu a prompt labeled by $1 to perform command $2.
+
+[ "$(printf "No\\nYes" | dmenu -p "$1")" = "Yes" ] && $2
+# [ "$(printf "No\\nYes" | dmenu -c -bw 2 -l 10 -p "$1")" = "Yes" ] && $2

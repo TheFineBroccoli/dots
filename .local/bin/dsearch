@@ -1,0 +1,38 @@
+#!/bin/sh
+
+# Simple shell script for searching the web with dmenu.
+
+browser="firefox"
+
+# Launch dmenu
+# Comment the line bellow if you want to use "top sites" list
+search="$(dmenu -p "Search:" <&- && echo)"
+
+# Launch dmenu, but with "top sites" list
+# Create file named "sites" in "~/.config/dsearch/"
+# (Each url should be on it own line)
+# Un-comment the line bellow if you want to use "top sites" list
+# search="$(echo "~/.config/dsearch/sites" | dmenu -l 10 -p "Search:")"
+
+case "$search" in
+    # Exit if the prompt is empty
+    "") exit ;;
+    # Check for keywords
+    s\ *) $browser "https://stardewvalleywiki.com/mediawiki/index.php?title=Special:Search&search=${search##?}" ;;
+    "s") $browser "https://stardewvalleywiki.com/Stardew_Valley_Wiki" ;;
+    a\ *) $browser "https://wiki.archlinux.org/index.php?title=Special:Search&search=${search##?}" ;;
+    "a") $browser "https://wiki.archlinux.org/index.php" ;;
+    y\ *) $browser "https://www.youtube.com/results?search_query=${search##?}" ;;
+    "y") $browser "https://www.youtube.com" ;;
+    *)
+        # Check if string is a url or not
+        # If it is open it in $browser
+        # If it isn't make a ddg search
+        if echo "$search" | grep -E "^(http:\/\/|https:\/\/)?[a-z0-9-]+\.[a-z]+(/)?.*$"
+        then
+            $browser "$search"
+        else
+            $browser "https://duckduckgo.com/?t=ffab&q=${search}"
+        fi
+    ;;
+esac
