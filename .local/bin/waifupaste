@@ -3,7 +3,7 @@
 # Simple wrapper script for uploading to waifupaste.moe and copying the generated URL in raw format.
 # Dependencies: curl, sed, xsel.
 
-EXT=$(sed 's/.*\././' <<< "$1")
+EXT=$(echo "$1" | sed 's/.*\././')
 
 ADD=$(curl --data-binary @- https://waifupaste.moe/paste < "$1" | sed "s!moe/!moe/raw/!" | sed "s/$/$EXT/")
 
