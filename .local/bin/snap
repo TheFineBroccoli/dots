@@ -1,0 +1,24 @@
+#!/bin/sh
+
+# Get screen size (size of root window)
+rwid=$(lsw -r)
+swidth=$(wattr w $rwid)
+sheight=$(wattr h $rwid)
+
+# Gaps
+gap=12
+
+# Snap functions
+snap_left(){
+    wtp "$gap" "$gap" "$((swidth/2 - gap - gap/2))" "$((sheight - 2*gap))" "$(pfw)"
+}
+
+snap_right(){
+    wtp "$((swidth/2 + gap/2))" "$gap" "$((swidth/2 - gap - gap/2))" "$((sheight - 2*gap))" "$(pfw)"
+}
+
+# Decide based on cmd arguments
+case $1 in
+    "--left") snap_left ;;
+    "--right") snap_right ;;
+esac

@@ -1,0 +1,21 @@
+#!/bin/sh
+
+# A wrapper script for scrot
+# Ment to be used with keybinding(s)
+
+# "-a" take scereenshot of the whole screen
+# "-f" take scereenshot of the focused window
+# "-s" interactive selection
+
+# Uses herbe for notifications
+
+file_format='%F--%T.png' 
+
+case $1 in
+    "-a") scrot -q 100 $file_format -e 'mv $f ~/Pictures/Screenshots/' && \
+        sleep .4 && herbe "Screenshot saved" ;;
+    "-f") scrot -u -q 100 $file_format -e 'mv $f ~/Pictures/Screenshots/' && \
+        sleep .4 && herbe "Screenshot saved" ;;
+    "-s") scrot -s -q 100 $file_format -e 'mv $f ~/Pictures/Screenshots/' && \
+        sleep .4 && herbe "Screenshot saved" ;;
+esac

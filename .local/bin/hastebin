@@ -1,0 +1,5 @@
+#!/bin/sh
+#Simple wrapper script for uploading to hastebin.com and copying the generated URL.
+#Dependencies: haste (https://github.com/seejohnrun/haste-client), xsel.
+
+haste $1 | xsel -b
